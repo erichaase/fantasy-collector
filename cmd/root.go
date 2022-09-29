@@ -34,6 +34,6 @@ func Execute() {
 }
 
 func init() {
-	// TODO: add --format flag: html, csv, etc.
-	// TODO: add --dest flag: s3, stdout, etc.
+	// TODO: add --format flag: html, csv, table (default csv)
+	// TODO: add --dest flag: gcs, stdout (default gcs)
 }
