@@ -21,7 +21,7 @@ func newScoreboardClient(httpClient *http.Client, baseURL string) scoreboardClie
 func (c scoreboardClient) gameIDs() ([]int, error) {
 	url, err := url.Parse(c.baseURL)
 	if err != nil {
-		return nil, fmt.Errorf("parsing URL: %w", err)
+		return nil, fmt.Errorf("parsing URL: %s: %w", c.baseURL, err)
 	}
 
 	url.Path = "apis/site/v2/sports/basketball/nba/scoreboard"
@@ -30,7 +30,7 @@ func (c scoreboardClient) gameIDs() ([]int, error) {
 
 	resp, err := c.httpClient.Get(url.String())
 	if err != nil {
-		return nil, fmt.Errorf("http request: %w", err)
+		return nil, fmt.Errorf("http request: %s: %w", url.String(), err)
 	}
 	defer resp.Body.Close()
 
@@ -60,7 +60,7 @@ func (c scoreboardClient) gameIDs() ([]int, error) {
 			id, err := strconv.Atoi(e.Id)
 			if err != nil {
 				// TODO: add a logger
-				fmt.Fprintf(os.Stderr, "Warning: converting game ID to string: %v\n", err)
+				fmt.Fprintf(os.Stderr, "Warning: converting game ID to integer: %s: %v\n", e.Id, err)
 				continue
 			}
 			ids = append(ids, id)
